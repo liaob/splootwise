@@ -27,10 +27,8 @@ export const ExpenseForm = ({ users, totalExpense, setTotalExpense, currentExpen
       users: checkedUsers,
     };
     setCurrentExpenses(currentExpenses.concat(newExpense));
-    setCheckedUsers(users);
     console.log('New Expense Added: ', newExpense);
   };
-
 
   return (
     <>
@@ -46,9 +44,9 @@ export const ExpenseForm = ({ users, totalExpense, setTotalExpense, currentExpen
         <label>Expense Price: </label>
         <input type='number' value={currentExpense} onChange={e => setCurrentExpense(parseInt(e.target.value))}></input><br/>
         <label>Users Involved: </label>
-        <ExpenseUsersChecklist users={users} setSelectedUsers={setCheckedUsers} />
+        <ExpenseUsersChecklist totalUsers={users} checkedUsers={checkedUsers} setSelectedUsers={setCheckedUsers} />
         <br/>
-        <input type='button' value='Add Expense' onClick={() => addExpense()}></input>
+        <input type='button' value='Add Expense' onClick={() => addExpense()} disabled={users.length === 0 ? true : false}></input>
       </form>
     </>
   );
