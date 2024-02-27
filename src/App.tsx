@@ -17,7 +17,7 @@ export const App = () => {
         <h1>Splootwise</h1>
       </span>
       <UserDisplay currentUsers={currentUsers} setCurrentUsers={setCurrentUsers} />
-      <ExpenseForm users={currentUsers} totalExpense={totalExpense} setTotalExpense={setTotalExpense} currentExpenses={currentExpenses} setCurrentExpenses={setCurrentExpenses} />
+      <ExpenseForm users={currentUsers} setUsers={setCurrentUsers} totalExpense={totalExpense} setTotalExpense={setTotalExpense} currentExpenses={currentExpenses} setCurrentExpenses={setCurrentExpenses} />
     </>
   );
 };

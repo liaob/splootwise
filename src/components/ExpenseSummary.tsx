@@ -9,7 +9,14 @@ type ExpenseSummaryProps = {
 export const ExpenseSummary = ({ totalCost, expenses }: ExpenseSummaryProps) => {
   return (<>
     <h2>Total Cost: ${totalCost.toFixed(2)}</h2>
-    {expenses.map((expense => <p>{expense.name} : {expense.price}</p>))}
+    {expenses.map(((expense) => {
+      return (
+        <>
+          <h3>Expense: {expense.name} : ${expense.price}</h3>
+          <h3>Paid By: {expense.paidBy}</h3>
+          <h4>Users Involved: {expense.users.map(user => user.name + ' ')}</h4>
+        </>);
+    }))}
   </>);
 
 };

@@ -10,7 +10,6 @@ type ExpenseUsersChecklistProps = {
 
 export const ExpenseUsersChecklist = ({totalUsers, checkedUsers, setSelectedUsers}: ExpenseUsersChecklistProps) => {
   const changeSelectedUsers = (id: string, isChecked: boolean ) => {
-    console.log(id, isChecked);
     if(isChecked){
       const selectedUser = totalUsers.filter(user => user.id === id);
       setSelectedUsers(checkedUsers.concat(selectedUser));

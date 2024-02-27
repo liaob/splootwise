@@ -16,13 +16,13 @@ export const AddUserButton = ({ currentUsers, setCurrentUsers } : AddUserButtonT
       owes:0
     };
     setCurrentUsers(currentUsers.concat(newUser));
+    setInputData('');
   };
 
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
       addUser(inputData);
-      setInputData('');
     }}>
       <label>Enter User: </label><input type='text' value={inputData} onChange={e => setInputData(e.target.value)}></input>
       <input type='button' value='Add User' onClick={() => addUser(inputData)}></input>
