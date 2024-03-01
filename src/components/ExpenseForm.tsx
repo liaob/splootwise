@@ -4,6 +4,7 @@ import { Expense } from '../types/Expense';
 import { ExpenseSummary } from './ExpenseSummary';
 import { ExpenseUsersChecklist } from './ExpenseUsersChecklist';
 import { v4 } from 'uuid';
+import './ExpenseForm.css';
 
 type ExpenseFormProps = {
   users: User[];
@@ -48,7 +49,7 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
   };
 
   return (
-    <>
+    <div className='expense-form'>
       <ExpenseSummary totalCost={totalExpense} expenses={currentExpenses}/>
       <form onSubmit={(e) => {
         e.preventDefault();
@@ -71,6 +72,6 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
         <br/>
         <input type='button' value='Add Expense' onClick={() => addExpense()} disabled={users.length === 0 ? true : false}></input>
       </form>
-    </>
+    </div>
   );
 };

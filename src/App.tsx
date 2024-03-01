@@ -13,8 +13,8 @@ export const App = () => {
   return (
     <>
       <span>
-        <img style={{maxHeight:'150px'}} src='./images/splooty.jpeg'/>
-        <h1>Splootwise</h1>
+        <img style={{maxHeight:'150px', margin:'0 auto', display:'flex', paddingTop:'30px'}} src='./images/splooty.jpeg'/>
+        <h1 style={{textAlign:'center', fontFamily:'Brush Script MT, Brush Script Std, cursive', fontSize:'50px' }}>Splootwise</h1>
       </span>
       <UserDisplay currentUsers={currentUsers} setCurrentUsers={setCurrentUsers} />
       <ExpenseForm users={currentUsers} setUsers={setCurrentUsers} totalExpense={totalExpense} setTotalExpense={setTotalExpense} currentExpenses={currentExpenses} setCurrentExpenses={setCurrentExpenses} />

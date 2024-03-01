@@ -7,6 +7,6 @@ export const UserBlock = ({ name, owes, id } : User) => {
     <div className='userblock'>
       <p>Name: {name}</p>
       <p>Owes: ${owes}</p>
-      <p>Remove this later, id: {id}</p>
+      <p>ID: {id}</p>
     </div>);
 };
