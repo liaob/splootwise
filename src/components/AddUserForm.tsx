@@ -2,12 +2,12 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { User } from '../types/User';
 import { v4 } from 'uuid';
 
-type AddUserButtonType = {
+type AddUserFormType = {
   currentUsers: User[]
   setCurrentUsers: Dispatch<SetStateAction<User[]>>
 };
 
-export const AddUserButton = ({ currentUsers, setCurrentUsers } : AddUserButtonType ) => {
+export const AddUserForm = ({ currentUsers, setCurrentUsers } : AddUserFormType ) => {
   const [inputData, setInputData] = useState<string>('');
   const addUser = (user: string) => {
     const newUser: User = { 
