@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { User } from '../types/User';
-import { UserBlock } from './UserBlock';
+import { User } from '../../types/User';
+import { UserBlock } from '../UserBlock/UserBlock';
 import './UserDisplay.css';
-import { AddUserForm } from './AddUserForm';
+import { AddUserForm } from '../AddUserForm';
 
 type UserDisplayProps = {
   currentUsers: User[];
@@ -10,6 +10,13 @@ type UserDisplayProps = {
 };
 
 export const UserDisplay = ({ currentUsers, setCurrentUsers }: UserDisplayProps) => {
+
+  const removeUser = (id: string) => {
+    const newCurr = currentUsers.filter((user) => {
+      return user.id !== id;
+    });
+    setCurrentUsers(newCurr);
+  };
 
   return (
     <div className='user-wall'>
@@ -20,7 +27,7 @@ export const UserDisplay = ({ currentUsers, setCurrentUsers }: UserDisplayProps)
       <h2>User List:</h2>
       <div className='userdisplay'>
         {currentUsers.length ? currentUsers.map((user) => {
-          return <UserBlock name={user.name} owes={user.owes} id={user.id} />;
+          return <UserBlock user={user} deleteUser={removeUser} />;
         }) : <h3>Currently No Users</h3>}
       </div>
     </div>

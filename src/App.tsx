@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { UserDisplay } from './components/UserDisplay';
+import { UserDisplay } from './components/UserDisplay/UserDisplay';
 import { Expense } from './types/Expense';
 import { User } from './types/User';
 import { ExpenseForm } from './components/ExpenseForm';
