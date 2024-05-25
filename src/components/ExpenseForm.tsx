@@ -34,10 +34,29 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
     // go throught the checked users and the paid by user and include the valid items owed.
     const split = currentExpense/checkedUsers.length;
     const paid = users.find((user) => { return user.id === paidBy; });
+
+    //If you paid for yourself, why are you entering your transaction here lol
+    if(checkedUsers.length === 1 && checkedUsers[0] === paid){
+      return;
+    }
+
     const newUsers = users.map((user) => {
+
+      //If you paid but you're not a part of the transaction, you get the total back.
+      if(user === paid && !checkedUsers.includes(paid)){
+        const newUser = paid;
+        newUser.owes -= currentExpense;
+        return newUser;
+      }
+
       const x = checkedUsers.find((checked) => { return user.id === checked.id; });
-      if(x === undefined || x === paid){
+      // whoever paid will get back the split
+      if(x === undefined){
         return user;
+      } else if (x === paid) {
+        const newUser = user;
+        newUser.owes -= currentExpense - split;
+        return newUser;
       } else {
         const newUser = user;
         newUser.owes += split;

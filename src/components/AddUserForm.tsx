@@ -22,10 +22,12 @@ export const AddUserForm = ({ currentUsers, setCurrentUsers } : AddUserFormType 
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
-      addUser(inputData);
+      if(inputData.length > 0) {
+        addUser(inputData);
+      }
     }}>
       <label>Enter User: </label><input type='text' value={inputData} onChange={e => setInputData(e.target.value)}></input>
-      <input type='button' value='Add User' onClick={() => addUser(inputData)}></input>
+      <input disabled={inputData.length === 0} type='button' value='Add User' onClick={() => addUser(inputData)}></input>
     </form>
   );
 };

@@ -12,7 +12,7 @@ export const UserBlock = ({ user, deleteUser }: UserBlockProps) => {
   return (
     <div className='userblock'>
       <p>Name: {user.name}</p>
-      <p>Owes: ${user.owes}</p>
+      {user.owes < 0 ? <p>Gets Back: ${Math.abs(user.owes)}</p> : <p>Owes: ${user.owes}</p>}
       <p>ID: {user.id}</p>
       <button onClick={() => deleteUser(user.id)}>Delete</button>
     </div>);
