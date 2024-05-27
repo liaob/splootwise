@@ -13,7 +13,7 @@ export const App = () => {
   return (
     <>
       <span>
-        <img style={{maxHeight:'150px', margin:'0 auto', display:'flex', paddingTop:'30px'}} src='./images/splooty.jpeg'/>
+        <img style={{maxHeight:'150px', margin:'0 auto', display:'flex', paddingTop:'30px'}} src='./splooty.jpeg'/>
         <h1 style={{textAlign:'center', fontFamily:'Brush Script MT, Brush Script Std, cursive', fontSize:'50px' }}>Splootwise</h1>
       </span>
       <UserDisplay currentUsers={currentUsers} setCurrentUsers={setCurrentUsers} />
