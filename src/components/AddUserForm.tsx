@@ -26,8 +26,8 @@ export const AddUserForm = ({ currentUsers, setCurrentUsers } : AddUserFormType 
         addUser(inputData);
       }
     }}>
-      <label>Enter User: </label><input type='text' value={inputData} onChange={e => setInputData(e.target.value)}></input>
-      <input disabled={inputData.length === 0} type='button' value='Add User' onClick={() => addUser(inputData)}></input>
+      <label>Enter User: </label><input data-testid='add-user-textfield' type='text' value={inputData} onChange={e => setInputData(e.target.value)}></input>
+      <input data-testid='add-user-button' disabled={inputData.length === 0} type='button' value='Add User' onClick={() => addUser(inputData)}></input>
     </form>
   );
 };
