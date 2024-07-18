@@ -10,7 +10,6 @@ test('disables the add use button if the text field is blank', async () => {
   addUserForm.unmount();
 });
 
-
 test('enables the add use button if the text field has a value', async () => {
   const addUserForm = render(<AddUserForm currentUsers={[]} setCurrentUsers={() => {}} />);
 
