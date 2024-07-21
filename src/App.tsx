@@ -30,6 +30,16 @@ export const App = () => {
     link.click();
   };
 
+  const copyDataToClipboard = () => {
+    navigator.clipboard.writeText(JSON.stringify(context)).then(() => {
+      const copy = document.getElementById('copyButton') as HTMLButtonElement;
+      copy.innerHTML = 'Copied!';
+      setTimeout(() => {
+        copy.innerHTML = 'Copy';
+      }, 3000);
+    });
+  };
+
   if(file){
     const blob = new Blob([file[0]] , {type:'text/plain'});
     blob.text().then((x) => {
@@ -50,6 +60,7 @@ export const App = () => {
 
       <label>Import Data </label><input type="file" id="fileupload" onChange={(e) => setFile(e.target.files!!)}/>
       <label>Export Data</label><button onClick={() => handleSaveToPC()}>Click</button>
+      <label>Copy Data</label><button id="copyButton" onClick={() => copyDataToClipboard()}>Copy</button>
     </>
   );
 };
