@@ -63,25 +63,26 @@ export const App = () => {
     let r = sortedUsers.length-1;
     let currentDebt = Math.abs(sortedUsers[l].owes);
     let currentSettle = Math.abs(sortedUsers[r].owes);
+    const statementUl = document.createElement('ul');
 
     while(l !== r){
       if(currentDebt > currentSettle){
         currentDebt -= currentSettle;
-        console.log(`${sortedUsers[r].name} pays ${sortedUsers[l].name} ${currentSettle}`);
+        const li = document.createElement('li');
+        li.innerText = `${sortedUsers[r].name} pays ${sortedUsers[l].name} ${currentSettle}`;
+        statementUl.appendChild(li);
         r--;
         currentSettle = Math.abs(sortedUsers[r].owes);
       } else {
         currentSettle -= currentDebt;
-        console.log(`${sortedUsers[r].name} pays ${sortedUsers[l].name} ${currentDebt}`);
+        const li = document.createElement('li');
+        li.innerText = `${sortedUsers[r].name} pays ${sortedUsers[l].name} ${currentDebt}`;
+        statementUl.appendChild(li);
         l++;
         currentDebt = Math.abs(sortedUsers[l].owes);
       }
     }
-    // let min = currentUsers[0],max = currentUsers[0];
-
-    // for(let i = 0; i < usersClone.length; i++){
-    //   if(usersClone[i].owes < 0){
-    // }
+    document.getElementById('settleStatement')?.appendChild(statementUl);
   };
 
   return (
@@ -98,6 +99,7 @@ export const App = () => {
       <UserDisplay currentUsers={currentUsers} setCurrentUsers={setCurrentUsers} />
       <ExpenseForm users={currentUsers} setUsers={setCurrentUsers} totalExpense={totalExpense} setTotalExpense={setTotalExpense} currentExpenses={currentExpenses} setCurrentExpenses={setCurrentExpenses} />
       <button style={{margin:'2vw 9vw'}} onClick={() => settleUp()}>Settle Up</button>
+      <div style={{margin:'2vw 9vw'}} id='settleStatement'></div>
     </>
   );
 };
