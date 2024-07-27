@@ -49,6 +49,41 @@ export const App = () => {
     });
   }
 
+  const settleUp = () => {
+    if(totalExpense === 0 || currentUsers.length === 0) return;
+    let usersClone = currentUsers;
+    let settleStatement = {};
+
+    // sorted lowest to highest
+    const sortedUsers = [...currentUsers].sort((a,b) => {
+      return a.owes - b.owes;
+    });
+
+    let l = 0;
+    let r = sortedUsers.length-1;
+    let currentDebt = Math.abs(sortedUsers[l].owes);
+    let currentSettle = Math.abs(sortedUsers[r].owes);
+
+    while(l !== r){
+      if(currentDebt > currentSettle){
+        currentDebt -= currentSettle;
+        console.log(`${sortedUsers[r].name} pays ${sortedUsers[l].name} ${currentSettle}`);
+        r--;
+        currentSettle = Math.abs(sortedUsers[r].owes);
+      } else {
+        currentSettle -= currentDebt;
+        console.log(`${sortedUsers[r].name} pays ${sortedUsers[l].name} ${currentDebt}`);
+        l++;
+        currentDebt = Math.abs(sortedUsers[l].owes);
+      }
+    }
+    // let min = currentUsers[0],max = currentUsers[0];
+
+    // for(let i = 0; i < usersClone.length; i++){
+    //   if(usersClone[i].owes < 0){
+    // }
+  };
+
   return (
     <>
       <span>
@@ -57,11 +92,12 @@ export const App = () => {
       </span>
       <div style={{padding:'2vw 9vw'}}>
         <label>Import Data </label><input type="file" id="fileupload" onChange={(e) => setFile(e.target.files!!)}/><br/>
-        <label>Export Data</label><button onClick={() => handleSaveToPC()}>Click</button><br/>
-        <label>Copy Data</label><button id="copyButton" onClick={() => copyDataToClipboard()}>Copy</button>
+        <label>Export Data </label><button onClick={() => handleSaveToPC()}>Click</button><br/>
+        <label>Copy Data </label><button id="copyButton" onClick={() => copyDataToClipboard()}>Copy</button>
       </div>
       <UserDisplay currentUsers={currentUsers} setCurrentUsers={setCurrentUsers} />
       <ExpenseForm users={currentUsers} setUsers={setCurrentUsers} totalExpense={totalExpense} setTotalExpense={setTotalExpense} currentExpenses={currentExpenses} setCurrentExpenses={setCurrentExpenses} />
+      <button style={{margin:'2vw 9vw'}} onClick={() => settleUp()}>Settle Up</button>
     </>
   );
 };
