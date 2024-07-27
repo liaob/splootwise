@@ -21,6 +21,12 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
   const [expenseName, setExpenseName] = useState<string>('');
   const [checkedUsers, setCheckedUsers] = useState<User[]>([]);
 
+  const clearExpenseForm = () => {
+    setExpenseName('');
+    setCurrentExpense(0);
+    setCheckedUsers([]);
+  };
+
   const addExpense = () => {
     const paidBy = (document.getElementById('paidBy') as HTMLInputElement).value;
     const newExpense: Expense = {
@@ -70,6 +76,7 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
       });
       setUsers(newUsers);
       console.log('New Expense Added: ', newExpense);
+      clearExpenseForm();
     }
   };
 
