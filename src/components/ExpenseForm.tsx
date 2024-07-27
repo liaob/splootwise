@@ -52,7 +52,6 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
       }
   
       const newUsers = users.map((user) => {
-  
         //If you paid but you're not a part of the transaction, you get the total back.
         if(user === paid && !checkedUsers.includes(paid)){
           const newUser = paid;

@@ -1,15 +1,46 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { UserDisplay } from './components/UserDisplay/UserDisplay';
 import { Expense } from './types/Expense';
 import { User } from './types/User';
 import { ExpenseForm } from './components/ExpenseForm';
+import { addToLocalStorage, clearLocalStorage } from './utils/localStorage';
 
 export const App = () => {
   const [totalExpense, setTotalExpense] = useState<number>(0);
   const [file, setFile] = useState<FileList>();
   const [currentExpenses, setCurrentExpenses ] = useState<Expense[]>([]);
   const [currentUsers, setCurrentUsers] = useState<User[]>([]);
+
+  const firstRender = useRef(true);
+
+  const loadFromLocalStorage = function(){
+    const localData = localStorage.getItem('splootwiseSave');
+    if(localData){
+      const parsedData = JSON.parse(localData);
+      setCurrentUsers(parsedData.users);
+      setCurrentExpenses(parsedData.expenses);
+      const total = parsedData.expenses.reduce((a: any, b: any) => a + b.price, 0);
+      setTotalExpense(total);
+    }
+  };
+
+  useEffect(() => {
+    if(firstRender.current) {
+      loadFromLocalStorage();
+      firstRender.current = false;
+    } else {
+      addToLocalStorage(currentUsers, 'User');
+      addToLocalStorage(currentExpenses, 'Expense');
+    }
+  }, [currentUsers, currentExpenses]);
+
+  const clearData = () => {
+    setCurrentExpenses([]);
+    setCurrentUsers([]);
+    setTotalExpense(0);
+    clearLocalStorage();
+  };
 
   type DataContext = {
     expenses: Expense[],
@@ -94,7 +125,8 @@ export const App = () => {
       <div style={{padding:'2vw 9vw'}}>
         <label>Import Data </label><input type="file" id="fileupload" onChange={(e) => setFile(e.target.files!!)}/><br/>
         <label>Export Data </label><button onClick={() => handleSaveToPC()}>Click</button><br/>
-        <label>Copy Data </label><button id="copyButton" onClick={() => copyDataToClipboard()}>Copy</button>
+        <label>Copy Data </label><button id="copyButton" onClick={() => copyDataToClipboard()}>Copy</button><br/>
+        <label>Clear Data </label><button onClick={() => clearData()}>Click</button><br/>
       </div>
       <UserDisplay currentUsers={currentUsers} setCurrentUsers={setCurrentUsers} />
       <ExpenseForm users={currentUsers} setUsers={setCurrentUsers} totalExpense={totalExpense} setTotalExpense={setTotalExpense} currentExpenses={currentExpenses} setCurrentExpenses={setCurrentExpenses} />
