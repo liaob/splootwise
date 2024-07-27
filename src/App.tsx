@@ -55,12 +55,13 @@ export const App = () => {
         <img style={{maxHeight:'150px', margin:'0 auto', display:'flex', paddingTop:'30px'}} src='./splooty.jpeg'/>
         <h1 style={{textAlign:'center', fontFamily:'Brush Script MT, Brush Script Std, cursive', fontSize:'50px' }}>Splootwise</h1>
       </span>
+      <div style={{padding:'2vw 9vw'}}>
+        <label>Import Data </label><input type="file" id="fileupload" onChange={(e) => setFile(e.target.files!!)}/><br/>
+        <label>Export Data</label><button onClick={() => handleSaveToPC()}>Click</button><br/>
+        <label>Copy Data</label><button id="copyButton" onClick={() => copyDataToClipboard()}>Copy</button>
+      </div>
       <UserDisplay currentUsers={currentUsers} setCurrentUsers={setCurrentUsers} />
       <ExpenseForm users={currentUsers} setUsers={setCurrentUsers} totalExpense={totalExpense} setTotalExpense={setTotalExpense} currentExpenses={currentExpenses} setCurrentExpenses={setCurrentExpenses} />
-
-      <label>Import Data </label><input type="file" id="fileupload" onChange={(e) => setFile(e.target.files!!)}/>
-      <label>Export Data</label><button onClick={() => handleSaveToPC()}>Click</button>
-      <label>Copy Data</label><button id="copyButton" onClick={() => copyDataToClipboard()}>Copy</button>
     </>
   );
 };

@@ -10,7 +10,7 @@ type AddUserFormType = {
 export const AddUserForm = ({ currentUsers, setCurrentUsers } : AddUserFormType ) => {
   const [inputData, setInputData] = useState<string>('');
   const addUser = (user: string) => {
-    const newUser: User = { 
+    const newUser: User = {
       name: user,
       id: v4(),
       owes:0

@@ -5,6 +5,7 @@ import { ExpenseSummary } from './ExpenseSummary';
 import { ExpenseUsersChecklist } from './ExpenseUsersChecklist';
 import { v4 } from 'uuid';
 import './ExpenseForm.css';
+import { validateExpense } from '../utils/validator';
 
 type ExpenseFormProps = {
   users: User[];
@@ -21,7 +22,6 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
   const [checkedUsers, setCheckedUsers] = useState<User[]>([]);
 
   const addExpense = () => {
-    setTotalExpense(totalExpense + currentExpense);
     const paidBy = (document.getElementById('paidBy') as HTMLInputElement).value;
     const newExpense: Expense = {
       id: v4(),
@@ -30,41 +30,47 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
       paidBy,
       users: checkedUsers,
     };
-    setCurrentExpenses(currentExpenses.concat(newExpense));
-    // go throught the checked users and the paid by user and include the valid items owed.
-    const split = currentExpense/checkedUsers.length;
-    const paid = users.find((user) => { return user.id === paidBy; });
-
-    //If you paid for yourself, why are you entering your transaction here lol
-    if(checkedUsers.length === 1 && checkedUsers[0] === paid){
-      return;
+    
+    if(!validateExpense(newExpense)){
+      throw new Error('Invalid Expense');
+    } else {
+      setTotalExpense(totalExpense + currentExpense);
+      setCurrentExpenses(currentExpenses.concat(newExpense));
+      // go through the checked users and the paid by user and include the valid items owed.
+      const split = currentExpense/checkedUsers.length;
+      const paid = users.find((user) => { return user.id === paidBy; });
+  
+      //If you paid for yourself, why are you entering your transaction here lol
+      if(checkedUsers.length === 1 && checkedUsers[0] === paid){
+        return;
+      }
+  
+      const newUsers = users.map((user) => {
+  
+        //If you paid but you're not a part of the transaction, you get the total back.
+        if(user === paid && !checkedUsers.includes(paid)){
+          const newUser = paid;
+          newUser.owes -= currentExpense;
+          return newUser;
+        }
+  
+        const x = checkedUsers.find((checked) => { return user.id === checked.id; });
+        // whoever paid will get back the split
+        if(x === undefined){
+          return user;
+        } else if (x === paid) {
+          const newUser = user;
+          newUser.owes -= currentExpense - split;
+          return newUser;
+        } else {
+          const newUser = user;
+          newUser.owes += split;
+          return newUser;
+        }
+      });
+      setUsers(newUsers);
+      console.log('New Expense Added: ', newExpense);
     }
-
-    const newUsers = users.map((user) => {
-
-      //If you paid but you're not a part of the transaction, you get the total back.
-      if(user === paid && !checkedUsers.includes(paid)){
-        const newUser = paid;
-        newUser.owes -= currentExpense;
-        return newUser;
-      }
-
-      const x = checkedUsers.find((checked) => { return user.id === checked.id; });
-      // whoever paid will get back the split
-      if(x === undefined){
-        return user;
-      } else if (x === paid) {
-        const newUser = user;
-        newUser.owes -= currentExpense - split;
-        return newUser;
-      } else {
-        const newUser = user;
-        newUser.owes += split;
-        return newUser;
-      }
-    });
-    setUsers(newUsers);
-    console.log('New Expense Added: ', newExpense);
   };
 
   return (
@@ -79,7 +85,7 @@ export const ExpenseForm = ({ users, setUsers, totalExpense, setTotalExpense, cu
         <h3>Enter Expense: </h3><br/>
         <label>Expense Name: </label><input type='string' value={expenseName} onChange={e => setExpenseName(e.target.value)}></input><br/>
         <label>Expense Price: </label>
-        <input type='number' value={currentExpense} onChange={e => setCurrentExpense(parseInt(e.target.value))}></input><br/>
+        <input type='number' min={0} value={currentExpense} onChange={e => setCurrentExpense(parseInt(e.target.value))}></input><br/>
         <label>Paid for by: </label>
         <select id="paidBy">
           {users.map((user) => {
